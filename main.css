@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+header {
+  background-color: #eb3b5a;
+}
+
+.container {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 65% 34%;
+  column-gap: 1%;
+}
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main-button {
+  background-color: white;
+  color: black;
+  border: 2px solid #26de81;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  width: 150px;
+  margin-top: 10px;
+}
+.left div,
+.right div {
+  margin-top: 10px;
+  height: 50px;
+  background-color: white;
+  display: grid;
+  position: relative;
+  text-align: center;
+  border-radius: 10px;
+  border: 2px solid;
+  padding: 5px;
+}
+.left div {
+  width: 80%;
+  gap: calc(5% / 3);
+  grid-template-columns: 40% 20% 15% 20%;
+}
+.right div {
+  width: 90%;
+  grid-template-columns: 20% 40% 30%;
+  gap: 5%;
+}
+.left div input,
+.right div input:first-child {
+  border: none;
+  font-size: large;
+  outline: none;
+  text-align: center;
+  font-weight: bold;
+}
+.right div input:nth-child(2),
+select {
+  font-weight: bold;
+  font-size: medium;
+}
+.left div select,
+.right div input {
+  border-radius: 5px;
+  border: #3867d6 solid 2px;
+  outline: none;
+}
+.delete {
+  background-color: white;
+  color: black;
+  border: 2px solid #eb3b5a;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.calc {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.main-button:hover {
+  background-color: #26de81;
+  color: white;
+  transition: 0.5s;
+}
+.delete:hover {
+  background-color: #eb3b5a;
+  color: white;
+  transition: 0.5s;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+p {
+  position: absolute;
+  text-align: center;
+  margin: 20px auto;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 80px;
+  font-weight: bold;
+  font-size: 30px;
+}
+@media (max-width: 700px) {
+  .container {
+    grid-template-columns: 100%;
+  }
+  .right {
+    margin-top: 50px;
+  }
+}
