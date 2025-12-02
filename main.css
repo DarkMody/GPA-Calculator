@@ -1,7 +1,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Playwrite NO", cursive;
 }
 .dark {
   background-color: #191a2f;
@@ -16,11 +16,10 @@ header {
   color: white;
   padding: 10px;
   display: grid;
-  grid-template-columns: 30% 30%;
-  column-gap: 40%;
 }
 h1 {
   margin: auto auto;
+  margin-bottom: 10px;
 }
 ul {
   list-style-type: none;
@@ -117,7 +116,7 @@ select {
 }
 .main-button:hover {
   background-color: #26de81 !important;
-  color: white;
+  color: white !important;
   transition: 0.5s;
 }
 .delete:hover {
@@ -148,3 +147,9 @@ p {
     margin-top: 50px;
   }
 }
+/* @media (max-width: 1000px) {
+  header {
+    grid-template-columns: 30% 40%;
+    column-gap: 20%;
+  }
+} */
