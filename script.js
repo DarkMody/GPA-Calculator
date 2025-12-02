@@ -133,3 +133,27 @@ calc[0].onclick = function () {
   if (save > 4) calc[0].nextElementSibling.innerHTML = "4.00";
   else calc[0].nextElementSibling.innerHTML = save;
 };
+
+//Dark Mode
+let img = document.getElementsByTagName("img");
+img[0].onclick = function () {
+  if (document.body.classList.contains("dark")) {
+    document.body.classList.remove("dark");
+    img[0].src = "Icons/moon.png";
+    let ss = document.getElementsByClassName("main-button");
+    Array.from(ss).forEach((btn) => {
+      btn.style.backgroundColor = "white";
+      btn.style.color = "black";
+    });
+    document.getElementById("ans").style.color = "black";
+  } else {
+    document.body.className = "dark";
+    img[0].src = "Icons/sun-dim.png";
+    let ss = document.getElementsByClassName("main-button");
+    Array.from(ss).forEach((btn) => {
+      btn.style.backgroundColor = "#191a2f";
+      btn.style.color = "white";
+    });
+    document.getElementById("ans").style.color = "white";
+  }
+};
