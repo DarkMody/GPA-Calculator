@@ -66,7 +66,7 @@ function addNewSubject(name, hrs, grd) {
   addSubject[0].before(con);
   con.children[0].addEventListener("input", updateLocalStorage);
   con.children[1].addEventListener("input", updateLocalStorage);
-  con.children[2].addEventListener("input", updateLocalStorage);
+  con.children[2].addEventListener("change", updateLocalStorage);
 }
 // New Grade Func
 function addNewGrade(name, hrs) {
