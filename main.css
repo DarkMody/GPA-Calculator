@@ -142,8 +142,15 @@ p {
 @media (max-width: 700px) {
   .container {
     grid-template-columns: 100%;
+    margin: 0;
   }
   .right {
     margin-top: 50px;
+  }
+}
+@media (max-width: 450px) {
+  .right div,
+  .left div {
+    width: 100%;
   }
 }
