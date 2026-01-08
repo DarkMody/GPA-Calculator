@@ -147,9 +147,3 @@ p {
     margin-top: 50px;
   }
 }
-/* @media (max-width: 1000px) {
-  header {
-    grid-template-columns: 30% 40%;
-    column-gap: 20%;
-  }
-} */

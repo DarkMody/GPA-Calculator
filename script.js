@@ -2,8 +2,99 @@ let addSubject = document.getElementsByClassName("addSubject");
 let calc = document.getElementsByClassName("calc");
 let addGrade = document.getElementsByClassName("addGrade");
 let gradeValues;
+// localStorage.clear();
+if (localStorage.getItem("grades") !== null) {
+  let grd = JSON.parse(localStorage.getItem("grades")) || [];
+  for (let i = 0; i < grd.length; i += 2) {
+    addNewGrade(grd[i], grd[i + 1]);
+  }
 
-function updateGradeOptions() {
+  let sub = JSON.parse(localStorage.getItem("subjects")) || [];
+  for (let i = 0; i < sub.length; i += 3) {
+    addNewSubject(sub[i], sub[i + 1], sub[i + 2]);
+  }
+  updateGradeOptions(true);
+  let subjectsDiv = document.getElementsByClassName("left")[0].children;
+  console.log(subjectsDiv);
+  for (let i = 0; i < subjectsDiv.length - 1; i++) {
+    subjectsDiv[i].children[2].value = sub[2 + i * 3];
+  }
+}
+function updateLocalStorage() {
+  let grades = document.getElementsByClassName("right")[0].children;
+  let allGrades = [];
+  Array.from(grades).forEach((ele) => {
+    if (ele.tagName == "DIV") {
+      allGrades.push(ele.children[0].value);
+      allGrades.push(ele.children[1].value);
+    }
+  });
+  localStorage.setItem("grades", JSON.stringify(allGrades));
+  let subjects = document.getElementsByClassName("left")[0].children;
+  let allSubjects = [];
+  Array.from(subjects).forEach((ele) => {
+    if (ele.tagName == "DIV") {
+      allSubjects.push(ele.children[0].value);
+      allSubjects.push(ele.children[1].value);
+      allSubjects.push(ele.children[2].value);
+    }
+  });
+  localStorage.setItem("subjects", JSON.stringify(allSubjects));
+}
+// New Subject Func
+function addNewSubject(name, hrs, grd) {
+  let con = document.createElement("div");
+  let inp = document.createElement("input");
+  inp.type = "text";
+  inp.placeholder = "Name";
+  inp.value = name;
+  con.appendChild(inp);
+  inp = document.createElement("input");
+  inp.type = "number";
+  inp.placeholder = "Credit Hours";
+  inp.className = "creditHours";
+  inp.value = hrs;
+  con.appendChild(inp);
+  let sel = document.createElement("select");
+  sel.className = "selector";
+  sel.value = grd;
+  con.appendChild(sel);
+  let btn = document.createElement("button");
+  btn.className = "delete";
+  btn.innerHTML = "Delete";
+  con.appendChild(btn);
+  addSubject[0].before(con);
+  con.children[0].addEventListener("input", updateLocalStorage);
+  con.children[1].addEventListener("input", updateLocalStorage);
+  con.children[2].addEventListener("input", updateLocalStorage);
+}
+// New Grade Func
+function addNewGrade(name, hrs) {
+  let con = document.createElement("div");
+  let inp = document.createElement("input");
+  inp.type = "text";
+  inp.placeholder = "Grade";
+  inp.className = "grade";
+  inp.value = name;
+  con.appendChild(inp);
+  inp = document.createElement("input");
+  inp.type = "number";
+  inp.placeholder = "Grade Hours";
+  inp.className = "gradeHours";
+  inp.value = hrs;
+  con.appendChild(inp);
+  let btn = document.createElement("button");
+  btn.className = "delete";
+  btn.innerHTML = "Delete";
+  con.appendChild(btn);
+  addGrade[0].before(con);
+  inp = con.querySelector(".grade");
+  inp.addEventListener("input", updateGradeOptions);
+  let hours = con.querySelector(".gradeHours");
+  hours.addEventListener("input", updateLocalStorage);
+}
+// Making a dynamic Grade Changeing
+function updateGradeOptions(help = false) {
   let gradeInputs = document.getElementsByClassName("grade");
   gradeValues = [];
   // Collect all grade values
@@ -22,7 +113,7 @@ function updateGradeOptions() {
     let save = selector.value;
     let state = false;
 
-    // Clear existing options
+    // Clear existing option
     selector.innerHTML = "";
 
     // Add new options
@@ -34,53 +125,19 @@ function updateGradeOptions() {
     }
     if (state) selector.value = save;
   }
+  if (!help) updateLocalStorage();
 }
 
-// Add Element Function.
+// Add Subject Function.
 addSubject[0].onclick = function () {
-  let con = document.createElement("div");
-  let inp = document.createElement("input");
-  inp.type = "text";
-  inp.placeholder = "Name";
-  con.appendChild(inp);
-  inp = document.createElement("input");
-  inp.type = "number";
-  inp.placeholder = "Credit Hours";
-  inp.className = "creditHours";
-  con.appendChild(inp);
-  let sel = document.createElement("select");
-  sel.className = "selector";
-  con.appendChild(sel);
-  let btn = document.createElement("button");
-  btn.className = "delete";
-  btn.innerHTML = "Delete";
-  con.appendChild(btn);
-  addSubject[0].before(con);
-  con.children[0].focus();
+  addNewSubject("", "", "");
   updateGradeOptions();
 };
 
 // Add Grade Function.
 addGrade[0].onclick = function () {
-  let con = document.createElement("div");
-  let inp = document.createElement("input");
-  inp.type = "text";
-  inp.placeholder = "Grade";
-  inp.className = "grade";
-  con.appendChild(inp);
-  inp = document.createElement("input");
-  inp.type = "number";
-  inp.placeholder = "Grade Hours";
-  inp.className = "gradeHours";
-  con.appendChild(inp);
-  let btn = document.createElement("button");
-  btn.className = "delete";
-  btn.innerHTML = "Delete";
-  con.appendChild(btn);
-  addGrade[0].before(con);
-
-  inp = con.querySelector(".grade");
-  inp.addEventListener("input", updateGradeOptions);
+  addNewGrade("", "");
+  updateLocalStorage();
 };
 
 // Delete Button Function
@@ -92,22 +149,10 @@ document.addEventListener("click", function (e) {
 });
 
 document.addEventListener("focusout", function (e) {
-  // Credit Hours Input Value Checking
-  if (e.target.classList.contains("creditHours") && e.target.value == "") {
-    e.target.value = 0;
-  }
-  // Grade Input Value Checking
-
-  if (e.target.classList.contains("grade") && e.target.value == "") {
-    e.target.value = "A";
-    updateGradeOptions();
-  } else if (e.target.classList.contains("grade") && e.target.value != "") {
+  // Make Grades UpperCase
+  if (e.target.classList.contains("grade") && e.target.value != "") {
     e.target.value = e.target.value.toUpperCase();
     updateGradeOptions();
-  }
-  // Grade Hours Input Value Checking
-  if (e.target.classList.contains("gradeHours") && e.target.value == "") {
-    e.target.value = "0";
   }
 });
 
